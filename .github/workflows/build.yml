@@ -48,7 +48,7 @@ jobs:
 
     - name: Upload JAR artifact
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: user-service
         path: target/*.jar  # Assumes Maven output is in the target directory
