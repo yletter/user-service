@@ -49,7 +49,13 @@ public class UserController {
     }
 
     public void regexCall() {
-        String text = generateRandomString(100);
+        String text = generateRandomString(30) + " " + generateRandomString(30) 
+        + " " + generateRandomString(30) + " " + generateRandomString(30)
+        + " " + generateRandomString(30) + " " + generateRandomString(30)
+        + " " + generateRandomString(30) + " " + generateRandomString(30)
+        + " " + generateRandomString(30) + " " + generateRandomString(30);
+
+        System.out.println("The text: " + text);
 
         // Compile regex pattern
         Pattern emailPattern = Pattern.compile("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
