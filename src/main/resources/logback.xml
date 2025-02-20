@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<jmxConfigurator />
+	
+	<springProperty name="logging.dir" source="logging.dir" defaultValue="C:/Users/syuvaraj/Documents/Delete/logs" />
+	<springProperty name="application.name" source="spring.application.name" defaultValue="user-service" />
+	<springProperty name="host" source="HOSTNAME" defaultValue="${COMPUTERNAME}" />
+
+	<property name="LOG_FILE" value="${logging.dir}/${application.name}/${host}/${application.name}.log" />
+
+	<springProperty name="console.enabled" source="logging.console.enabled" defaultValue="true" />
+	<springProperty name="logfile.enabled" source="logging.logfile.enabled" defaultValue="true" />
+
+	<appender name = "STDOUT" class = "ch.qos.logback.core.ConsoleAppender">
+	 <encoder>
+	         <pattern>[%thread] %-5level [%d{yyyy-MM-dd HH:mm:ss}] ${application.name} %logger - %msg%n</pattern>
+	      </encoder>
+	</appender>
+
+	<appender name="SIZE_TIME_OUTPUT_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_FILE}.json</file>
+	    <append>true</append>
+		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<pattern>
+					<pattern>
+						{
+						"severity": "%level",
+						"service": "${application.name}",
+						"host": "${host}",
+						"thread": "%thread",
+						"timestamp" : "%date{dd-MM-yyyy HH:mm:ss.SSS}",
+						"class": "%logger{40}",
+						"msg": "%message",
+						"exception": "%exception"
+						}
+					</pattern>
+				</pattern>
+				<logstashMarkers/>
+			</providers>
+		</encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+	        <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.json</fileNamePattern>
+	        <maxFileSize>10KB</maxFileSize>
+	        <maxHistory>3</maxHistory>
+	    </rollingPolicy>
+	</appender>
+   
+   <root level = "INFO">
+      <appender-ref ref = "SIZE_TIME_OUTPUT_FILE"/>
+      <appender-ref ref = "STDOUT"/>
+   </root>
+</configuration>

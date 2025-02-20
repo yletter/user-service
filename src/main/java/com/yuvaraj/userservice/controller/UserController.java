@@ -8,10 +8,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.security.SecureRandom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @GetMapping
     public String getUsers() {
         return "User Service - List of Users";
@@ -19,22 +24,30 @@ public class UserController {
 
     @GetMapping("/time/{number}")
     public String getUserOrders(@PathVariable int number) {
-        System.out.println("Waiting for " + number + " seconds...");
+        logger.info("Waiting for " + number + " seconds...");
         try {
             TimeUnit.SECONDS.sleep(number); // Sleeps for 10 minutes
         } catch (InterruptedException e) {
-            System.out.println("Sleep interrupted: " + e.getMessage());
+            logger.error("Sleep interrupted: " + e.getMessage());
         }
-        System.out.println("Done waiting!");
+        logger.warn("Done waiting!");
         return "User Service - Time - " + number;
     }
 
     @GetMapping("/cpu/{number}")
-    public String getUserProfile(@PathVariable int number) {
+    public String getCPU(@PathVariable int number) {
+        logger.info("CPU for " + number + "...");
+        CPU.main(number);
+        return "User Service - CPU";
+    }
+
+    @GetMapping("/regex/{number}")
+    public String getRegex(@PathVariable int number) {
+        logger.info("Regex for " + number + "...");
         for (int i = 0; i < number; i++) {
             regexCall();
         }
-        return "User Service - CPU";
+        return "User Service - Regex";
     }
 
     private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 @.";
@@ -54,8 +67,7 @@ public class UserController {
         + " " + generateRandomString(30) + " " + generateRandomString(30)
         + " " + generateRandomString(30) + " " + generateRandomString(30)
         + " " + generateRandomString(30) + " " + generateRandomString(30);
-
-        System.out.println("The text: " + text);
+        logger.info("The text: " + text);
 
         // Compile regex pattern
         Pattern emailPattern = Pattern.compile("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
@@ -65,7 +77,7 @@ public class UserController {
 
         // Find and print all email addresses
         while (matcher.find()) {
-            System.out.println("Found email: " + matcher.group());
+            logger.info("Found email: " + matcher.group());
         }
     }
 
