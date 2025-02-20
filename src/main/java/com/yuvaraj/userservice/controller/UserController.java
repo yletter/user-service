@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.ArrayList;
 import java.security.SecureRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,10 @@ public class UserController {
     @GetMapping("/regex/{number}")
     public String getRegex(@PathVariable int number) {
         logger.info("Regex for " + number + "...");
+        ArrayList<String> t = new ArrayList<String>(number);
         for (int i = 0; i < number; i++) {
-            regexCall();
+            String text = regexCall();
+            t.add(text);
         }
         return "User Service - Regex";
     }
@@ -61,12 +64,9 @@ public class UserController {
         return sb.toString();
     }
 
-    public void regexCall() {
+    public String regexCall() {
         String text = generateRandomString(30) + " " + generateRandomString(30) 
-        + " " + generateRandomString(30) + " " + generateRandomString(30)
-        + " " + generateRandomString(30) + " " + generateRandomString(30)
-        + " " + generateRandomString(30) + " " + generateRandomString(30)
-        + " " + generateRandomString(30) + " " + generateRandomString(30);
+        + " " + generateRandomString(30);
         logger.info("The text: " + text);
 
         // Compile regex pattern
@@ -78,7 +78,9 @@ public class UserController {
         // Find and print all email addresses
         while (matcher.find()) {
             logger.info("Found email: " + matcher.group());
+            text = text + " " + matcher.group();
         }
+        return text;
     }
 
 }
