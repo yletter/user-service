@@ -3,7 +3,7 @@
 	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<jmxConfigurator />
 	
-	<springProperty name="logging.dir" source="logging.dir" defaultValue="C:/Users/syuvaraj/Documents/Delete/logs" />
+	<springProperty name="logging.dir" source="logging.dir" defaultValue="./logs" />
 	<springProperty name="application.name" source="spring.application.name" defaultValue="user-service" />
 	<springProperty name="host" source="HOSTNAME" defaultValue="${COMPUTERNAME}" />
 
