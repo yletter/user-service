@@ -83,4 +83,14 @@ public class UserController {
         return text;
     }
 
+    @GetMapping("/threads/{number}/{time}")
+    public String getThreads(@PathVariable int number, @PathVariable int time) {
+        logger.info("Threads to start: " + number + "...");
+        for (int i = 0; i < number; i++) {
+            CThread thread = new CThread(generateRandomString(10), time);
+            thread.start();
+        }
+        logger.warn("Threads are running!");
+        return "User Service - Time - " + number;
+    }
 }
