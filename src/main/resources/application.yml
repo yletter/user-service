@@ -12,12 +12,15 @@ logging:
 
 management:
   context-path: "/manage"
+  endpoint:
+    metrics:
+      enabled: true
   endpoints:
     enabled-by-default: true
     web:
       base-path: "/manage"
       exposure:
-        include: "health,refresh"
+        include: "health,refresh,metrics"
     health:
       show-details: always
   health:
