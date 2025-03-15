@@ -12,9 +12,6 @@ logging:
 
 management:
   context-path: "/manage"
-  metrics:
-    enable:
-      tomcat: true
   endpoint:
     metrics:
       enabled: true

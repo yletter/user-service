@@ -104,4 +104,19 @@ public class UserController {
         logger.warn("Threads are running!");
         return "User Service - Time - " + number;
     }
+
+    @GetMapping("/exit/{number}")
+    public String getSystemExit(@PathVariable int number) {
+        logger.info("Exit Code: " + number + "...");
+        System.exit(number);
+        return "Exit with " + number;
+    }
+	
+    @GetMapping("/gracefulexit/{number}")
+    public String getGracefulSystemExit(@PathVariable int number) {
+        logger.info("Graceful Exit Code: " + number + "...");
+        GracefulExit thread = new GracefulExit(generateRandomString(10), number);
+        thread.start();
+        return "Graceful Exit Code: " + number;
+    }
 }
