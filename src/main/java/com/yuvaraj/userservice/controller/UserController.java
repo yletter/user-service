@@ -42,6 +42,17 @@ public class UserController {
         return "User Service - CPU";
     }
 
+    @GetMapping("/writeio/{numberFile}/{numberSize}")
+    public String getWriteIO(@PathVariable int numberFile, @PathVariable int numberSize) {
+        logger.info("WriteIO for numberFile:" + numberFile + " numberSize:" + numberSize + " ...");
+        for (int i = 0; i < numberFile; i++) {
+            RandomFileGenerator thread = new RandomFileGenerator(generateRandomString(10), numberSize);
+            thread.start();
+        }
+        logger.warn("Threads are running!");
+        return "User Service - WriteIO";
+    }
+
     @GetMapping("/regex/{number}")
     public String getRegex(@PathVariable int number) {
         logger.info("Regex for " + number + "...");
