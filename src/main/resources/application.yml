@@ -18,14 +18,14 @@ management:
   endpoint:
     metrics:
       enabled: true
+    health:
+      show-details: always
   endpoints:
     enabled-by-default: true
     web:
       base-path: "/manage"
       exposure:
         include: "health,refresh,metrics"
-    health:
-      show-details: always
   health:
     livenessState:
       enabled: true
