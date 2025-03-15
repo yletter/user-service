@@ -1,6 +1,7 @@
 package com.yuvaraj.userservice.controller;
 
 import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -26,7 +27,8 @@ public class RandomFileGenerator extends Thread {
             String fileName = DIRECTORY + "/f_" + randomFileNameText + ".txt";
             String randomText = generateRandomText(TEXT_LENGTH);
             writeToFile(fileName, randomText);
-            System.out.println("Created: " + fileName);
+			File file = new File(fileName);
+            System.out.println("Created: " + randomFileNameText + " Path: " + file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
